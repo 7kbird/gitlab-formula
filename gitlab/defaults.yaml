@@ -1,0 +1,13 @@
+docker:
+  image: 'sameersbn/gitlab:8.2.2'
+  environment: []
+  database: {}
+  redis:
+    port: 6379
+  data_dir: '/srv/docker/gitlab/gitlab'
+  docker_data_dir: '/home/git/data'
+  docker_http_port: '80'
+  docker_https_port: '443'
+  docker_ssh_port: '22'
+  https: False
+

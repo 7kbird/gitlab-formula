@@ -1,0 +1,34 @@
+{% set db_docker = 'postgres_default' %}
+{% set db_name = 'gitlab' %}
+{% set db_user = 'gitlab' %}
+{% set db_pass = 'pass' %}
+
+# add database table
+postgres:
+  dockers:
+    {{ db_docker }}:
+      databases:
+        {{ db_name }}:
+          owner: {{ db_user }}
+          user: {{ db_user }}
+      users:
+        {{ db_user }}:
+          password: '{{ db_pass }}'
+      acls:
+        - ['local', '{{ db_name }}', '{{ db_user }}']
+
+gitlab:
+  dockers:
+    gitlab:
+      database:
+        adapter: postgresql
+        name: {{ db_name }}
+        user: {{ db_user }}
+        password: {{ db_pass }}
+        link: {{ db_docker }}
+      redis:
+        link: redis_default
+      data_dir: "/home/docker/gitlab/data"
+      port: 10080
+      ssh_port: 10022
+      secrets_db_key_base: 'averylongrandomstring'

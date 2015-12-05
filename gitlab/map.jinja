@@ -1,0 +1,14 @@
+# vim: sts=2 ts=2 sw=2 et ai
+{% macro get_environment(docker) -%}
+- DB_ADAPTER: '{{ docker.database.adapter }}'
+- DB_NAME: '{{ docker.database.name }}'
+- DB_USER: '{{ docker.database.user }}'
+- DB_PASS: '{{ docker.database.password }}'
+{% if 'port' in docker %}
+- GITLAB_PORT: '{{ docker.port }}'
+{% endif %}
+{% if 'ssh_port' in docker %}
+- GITLAB_SSH_PORT: '{{ docker.ssh_port }}'
+{% endif%}
+- GITLAB_SECRETS_DB_KEY_BASE: '{{ docker.secrets_db_key_base }}'
+{% endmacro %}
