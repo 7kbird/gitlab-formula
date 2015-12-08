@@ -10,4 +10,5 @@ docker:
   docker_https_port: '443'
   docker_ssh_port: '22'
   https: False
+  ssl_self_signed: False
 

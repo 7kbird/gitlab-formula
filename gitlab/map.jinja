@@ -11,4 +11,6 @@
 - GITLAB_SSH_PORT: '{{ docker.ssh_port }}'
 {% endif%}
 - GITLAB_SECRETS_DB_KEY_BASE: '{{ docker.secrets_db_key_base }}'
+- GITLAB_HTTPS: '{{ docker.https|string|lower }}'
+- SSL_SELF_SIGNED: '{{ docker.ssl_self_signed|string|lower }}'
 {% endmacro %}
