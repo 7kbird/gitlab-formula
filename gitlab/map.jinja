@@ -4,6 +4,7 @@
 - DB_NAME: '{{ docker.database.name }}'
 - DB_USER: '{{ docker.database.user }}'
 - DB_PASS: '{{ docker.database.password }}'
+- GITLAB_HOST: '{{ docker.get('host', 'localhost') }}'
 {% if 'port' in docker %}
 - GITLAB_PORT: '{{ docker.port }}'
 {% endif %}

@@ -27,16 +27,16 @@ gitlab-docker-running_{{ docker_name }}:
       {% endfor %}
     - environment:
       {{ get_environment(docker)|indent(6)}}
+    {% if docker.publish %}
     - port_bindings:
-    {% if 'port' in docker %}
-    {%   if docker.https %}
-      - '{{ docker.port }}:{{ docker.docker_https_port }}'
-    {%   else %}
-      - '{{ docker.port }}:{{ docker.docker_http_port }}'
-    {%   endif %}
-    {% endif %}
-    {% if 'ssh_port' in docker %}
+      {%   if docker.https %}
+      - '{{ docker.get('port', '443') }}:{{ docker.docker_https_port }}'
+      {%   else %}
+      - '{{ docker.get('port', '80') }}:{{ docker.docker_http_port }}'
+      {%   endif %}
+      {% if 'ssh_port' in docker %}
       - '{{ docker.ssh_port }}:{{ docker.docker_ssh_port }}'
+      {% endif %}
     {% endif %}
     - binds: {{ docker.data_dir }}:{{ docker.docker_data_dir}}
 

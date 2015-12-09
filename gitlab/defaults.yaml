@@ -11,4 +11,4 @@ docker:
   docker_ssh_port: '22'
   https: False
   ssl_self_signed: False
-
+  publish: False
