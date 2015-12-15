@@ -38,7 +38,11 @@ gitlab-docker-running_{{ docker_name }}:
       - '{{ docker.ssh_port }}:{{ docker.docker_ssh_port }}'
       {% endif %}
     {% endif %}
-    - binds: {{ docker.data_dir }}:{{ docker.docker_data_dir}}
+    - binds:
+      - {{ docker.data_dir }}:{{ docker.docker_data_dir}}
+      {% if 'repos_dir' in docker %}
+      - {{ docker.repos_dir }}:{{ docker.docker_repos_dir }}
+      {% endif %}
 
 {% if 'certs' in docker %}
   {% set certs = { 'gitlab.key':docker.certs.key,

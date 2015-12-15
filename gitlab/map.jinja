@@ -13,5 +13,6 @@
 {% endif%}
 - GITLAB_SECRETS_DB_KEY_BASE: '{{ docker.secrets_db_key_base }}'
 - GITLAB_HTTPS: '{{ docker.https|string|lower }}'
+- GITLAB_REPOS_DIR: '{{ docker.docker_repos_dir }}'
 - SSL_SELF_SIGNED: '{{ docker.ssl_self_signed|string|lower }}'
 {% endmacro %}

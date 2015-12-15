@@ -9,6 +9,7 @@ docker:
   docker_http_port: '80'
   docker_https_port: '443'
   docker_ssh_port: '22'
+  docker_repos_dir: '/srv/git/data/repositories'
   https: False
   ssl_self_signed: False
   publish: False
