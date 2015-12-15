@@ -43,6 +43,8 @@ gitlab-docker-running_{{ docker_name }}:
       {% if 'repos_dir' in docker %}
       - {{ docker.repos_dir }}:{{ docker.docker_repos_dir }}
       {% endif %}
+    - require:
+      - cmd: gitlab-docker-image_{{ image }}
 
 {% if 'certs' in docker %}
   {% set certs = { 'gitlab.key':docker.certs.key,
