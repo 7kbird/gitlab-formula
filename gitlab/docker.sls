@@ -12,6 +12,7 @@
 
 {% set image = docker.image if ':' in docker.image else docker.image ~ ':latest' %}
 {% do images.append(image) if image not in images %}
+{% set no_ip_extern_dockers = [] %}
 
 gitlab-docker-running_{{ docker_name }}:
   dockerng.running:
@@ -48,9 +49,24 @@ gitlab-docker-running_{{ docker_name }}:
       {% for ex_host in docker.extra_hosts.get('hosts', []) %}
       - {{ ex_host }}
       {% endfor %}
+      {% for ex_host, ex_docker in docker.extra_hosts.get('dockers', {}).items() %}
+        {% if ex_docker in salt['dockerng.list_containers']() %}
+          {% set ex_docker_ip = salt['dockerng.inspect_container'](ex_docker).NetworkSettings.IPAddress %}
+          {% if ex_docker_ip %}
+      - '{{ ex_host }}:{{ ex_docker_ip }}'{% continue%}
+          {% endif %}
+        {% endif %}
+        {% do no_ip_extern_dockers.append(ex_docker) %}
+      {% endfor %}
     {% endif %}
     - require:
       - cmd: gitlab-docker-image_{{ image }}
+
+{% if no_ip_extern_dockers %}
+gitlab-docker-{{ docker_name }}-depends-dockers-not-started:
+  test.fail_without_changes:
+    - name: 'Gitlab depend dockers not started:[{{ no_ip_extern_dockers|join(',') }}]'
+{% endif %}
 
 {% if 'certs' in docker %}
   {% set certs = { 'gitlab.key':docker.certs.key,
