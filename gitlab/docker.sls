@@ -43,6 +43,12 @@ gitlab-docker-running_{{ docker_name }}:
       {% if 'repos_dir' in docker %}
       - {{ docker.repos_dir }}:{{ docker.docker_repos_dir }}
       {% endif %}
+    {% if 'extra_hosts' in docker%}
+    - extra_hosts:
+      {% for ex_host in docker.extra_hosts.get('hosts', []) %}
+      - {{ ex_host }}
+      {% endfor %}
+    {% endif %}
     - require:
       - cmd: gitlab-docker-image_{{ image }}
 
